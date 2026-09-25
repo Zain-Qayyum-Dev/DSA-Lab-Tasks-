@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int value;
+    Node* next;
+};
+
+class List {
+private:
+    Node* head;
+
+public:
+    List() {
+        head = NULL;
+    }
+
+    void insertAtHead(int new_value) {
+        Node* temp = new Node();
+        temp->value = new_value;
+        temp->next = head;
+        head = temp;
+    }
+};
+
+int main() {
+    List myList;
+
+    myList.insertAtHead(10);
+    myList.insertAtHead(20);
+    myList.insertAtHead(30);
+
+    return 0;
+}
