@@ -1,0 +1,146 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void addNodetoBeginning (Node* &head , int data ){
+    Node* temp = new Node ();
+    temp->next = head ;
+    temp->data = data;
+    head  = temp ;
+}
+
+void addNodeto3Position (Node* &head , int data  ){
+    Node* temp = head ;
+
+    for ( int i = 1 ; i < 2 ; i++ ){
+        temp = temp->next ;
+    }
+
+    Node* newNode = new Node();
+    newNode->next = temp->next;
+    temp->next = newNode ;
+    newNode->data = data;
+
+}
+
+void printLinkedList ( Node*& head) {
+    Node* temp = head ;
+    while( temp!=nullptr){
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+}
+
+void deletebyPosition ( Node*& head , int position) {
+
+    Node* temp = head ;
+    if ( position == 1 ){
+        head = temp->next;
+        cout<<"The node that is deleted by the user is "<<position<<" . Which have that data "<<temp->data<<endl;
+        delete temp;
+        return;
+    }
+
+    for (int i = 1 ; i < position - 1 ; i++){
+        temp = temp->next;
+    }
+
+    Node* tempPtr = temp->next ;
+    temp->next = temp->next->next;
+    cout<<"The node that is deleted by the user is "<<position<<" . Which have that data "<<temp->data<<endl;
+    delete tempPtr ;
+
+}
+
+int countNodesInLinkedList(Node*& head){
+    Node* temp = head;
+    int nodes = 0 ;
+    while( temp != nullptr ) {
+        temp = temp->next;
+        nodes++;
+    }
+    return nodes;
+}
+
+int main() {
+
+    Node* head = new Node;
+    head->data = 10 ;
+    head->next = NULL ;
+    addNodetoBeginning (head , 30);
+    addNodetoBeginning (head , 30);
+    addNodetoBeginning (head , 40);
+
+    int choice;
+    int data, position;
+    int num_nodes;
+
+    cout<<"Sample linked list ."<<endl;
+    printLinkedList(head);
+
+    do {
+        cout<<endl<<"----- MENU -----"<<endl;
+        cout<<"1. Insert node at beginning"<<endl;
+        cout<<"2. Insert node at 3rd position"<<endl;
+        cout<<"3. Display linked list"<<endl;
+        cout<<"4. Delete node by position"<<endl;
+        cout<<"5. Count number of nodes"<<endl;
+        cout<<"6. Exit"<<endl;
+        cout<<"Enter your choice: ";
+        cin>>choice;
+
+        switch(choice) {
+            case 1:
+                cout<<"Enter data to insert at beginning: ";
+                cin>>data;
+                addNodetoBeginning(head, data);
+                cout<<"Resulting linked list ."<<endl;
+                printLinkedList(head);
+                break;
+
+            case 2:
+                cout<<"Enter data to insert at 3rd position: ";
+                cin>>data;
+                addNodeto3Position(head, data);
+                cout<<"Resulting linked list ."<<endl;
+                printLinkedList(head);
+                break;
+
+            case 3:
+                cout<<"Linked list: ";
+                printLinkedList(head);
+                cout<<endl;
+                break;
+
+            case 4:
+                cout<<"Enter position to delete: ";
+                cin>>position;
+                deletebyPosition(head, position);
+                cout<<"Resulting linked list ."<<endl;
+                printLinkedList(head);
+                break;
+
+            case 5:
+                num_nodes = countNodesInLinkedList(head);
+                cout<<"The linked list has "<<num_nodes<<" nodes"<<endl;
+                break;
+
+            case 6:
+                cout<<"Exiting..."<<endl;
+                break;
+
+            default:
+                cout<<"Invalid choice. Try again."<<endl;
+        }
+
+    } while(choice != 6);
+
+
+    return 0;
+}
+
+
