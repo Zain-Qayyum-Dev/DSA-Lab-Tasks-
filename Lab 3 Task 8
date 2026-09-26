@@ -1,0 +1,110 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int value;
+    Node* next;
+};
+
+class CircularList {
+private:
+    Node* tail;
+
+public:
+    CircularList() {
+        tail = NULL;
+    }
+
+    void insertAtEnd(int value) {
+        Node* newNode = new Node();
+        newNode->value = value;
+
+        if (tail == NULL) {
+            newNode->next = newNode;
+            tail = newNode;
+            return;
+        }
+
+        newNode->next = tail->next;
+        tail->next = newNode;
+        tail = newNode;
+    }
+
+    void deleteFromFront() {
+        if (tail == NULL) {
+            cout << "The list is already empty." << endl;
+            return;
+        }
+
+        Node* head = tail->next;
+
+        if (head == tail) {
+            delete head;
+            tail = NULL;
+            return;
+        }
+
+        tail->next = head->next;
+        delete head;
+    }
+
+    void display() {
+        if (tail == NULL) {
+            cout << "The list is empty." << endl;
+            return;
+        }
+
+        Node* temp = tail->next;
+        do {
+            cout << temp->value << " ";
+            temp = temp->next;
+        } while (temp != tail->next);
+        cout << endl;
+    }
+
+    bool isCircular() {
+        if (tail == NULL) {
+            return false;
+        }
+
+        Node* head = tail->next;
+        Node* temp = head;
+
+        do {
+            if (temp->next == NULL) {
+                return false;
+            }
+            temp = temp->next;
+        } while (temp != head);
+
+        return (tail->next == head);
+    }
+};
+
+int main() {
+
+    CircularList myList;
+
+    myList.insertAtEnd(10);
+    myList.insertAtEnd(20);
+    myList.insertAtEnd(30);
+
+    cout << "Circular list: ";
+    myList.display();
+
+    myList.deleteFromFront();
+
+    cout << "Circular list after deleting from front: ";
+    myList.display();
+
+    myList.insertAtEnd(40);
+
+    cout << "Circular list after inserting at end: ";
+    myList.display();
+
+    bool circular = myList.isCircular();
+    cout << "Is the list circular? " << (circular ? "Yes" : "No") << endl;
+
+    return 0;
+}
